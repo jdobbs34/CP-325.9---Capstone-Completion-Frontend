@@ -29,7 +29,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<BookListPage books={books} setBooks={setBooks} />} />
         <Route path="/add" element={<AddBookPage setBooks={setBooks} />} />
-        <Route path="/book/id" element={<BookDetailPage books={books} setBooks={setBooks} />} />
+        <Route path="/book/:id" element={<BookDetailPage books={books} setBooks={setBooks} />} />
         <Route path="/stats" element={<StatsPage books={books} />} />
       </Routes>
     </BrowserRouter>

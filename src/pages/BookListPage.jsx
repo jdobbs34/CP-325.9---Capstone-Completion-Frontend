@@ -74,11 +74,12 @@ export default function BookListPage({ books, setBooks }) {
         {books.map(book => (
           <div key={book.id} className="book-card" data-status={book.status}>
             {book.cover && <img src={book.cover} alt={book.title} />}
-            <div>
+            <div style={{flex: 1}}>
               <h3>{book.title}</h3>
               <p>{book.author}</p>
-              <p>{book.status}</p>
+              <p style={{textTransform: 'capitalize'}}>{book.status}</p>
               {book.rating && <p>{"⭐".repeat(book.rating)}</p>}
+              {book.notes && <p style={{fontstyle: 'italic'}}>{book.notes}</p>}
               <div style={{ marginTop: " 0.5rem" }}>
                 <button
                   className="btn-primary"

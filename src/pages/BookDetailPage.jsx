@@ -105,7 +105,7 @@ export default function CharacterDetailPage({ books, setBooks }) {
         {/* Comment box */}
         <div className="form-group">
           <label>Notes</label>
-          <textarea ref={notesRef} rows="4" />
+          <textarea ref={notesRef} rows="4" placeholder="Your thoughts so far..."/>
         </div>
 
         <p
