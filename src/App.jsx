@@ -8,7 +8,7 @@ import StatsPage from "./pages/StatsPage";
 // import "./App.css";
 
 // useState - hold the books array
-function App() {
+export default function App() {
   const [books, setBooks] = useState(() => {
     try {
       const saved = localStorage.getItem("books");
@@ -36,6 +36,6 @@ function App() {
   );
 }
 
-export default App;
+
 
 
