@@ -2,7 +2,7 @@ import { useRef, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 // Function and hooks
-export default function CharacterDetailPage({ books, setBooks }) {
+export default function BookDetailPage({ books, setBooks }) {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -14,7 +14,7 @@ export default function CharacterDetailPage({ books, setBooks }) {
   const coverRef = useRef(null);
   const successRef = useRef(null);
 
-  // useEffect to load character data when page opens
+  // useEffect to load book data when page opens
   useEffect(() => {
     const book = books.find((b) => b.id === id);
     if (!book) return navigate("/");
