@@ -7,70 +7,55 @@ export default function AddBookPage({ setBooks }) {
 
   const [results, setResults] = useState([]);
 
-  // useRef for all inputs
-  const searchRef = useRef(null);
   const titleRef = useRef(null);
   const authorRef = useRef(null);
   const statusRef = useRef(null);
   const ratingRef = useRef(null);
   const notesRef = useRef(null);
-  const timerRef = useRef(null);
-  const errorRef = useRef(null);
-  const selectedRef = useRef(null);
+  const searchRef = useRef(null);
   const coverRef = useRef(null);
+  const errorRef = useRef(null);
+  const googleIdRef = useRef(null);
 
-  // useEffect to cous search on page load
+  // useEffect for search
   useEffect(() => {
     searchRef.current.focus();
   }, []);
 
-  // useEffect for Rick and Morty API seacrh
-  useEffect(() => {
-    const input = searchRef.current;
-
-    const handleInput = () => {
-      clearTimeout(timerRef.current);
-      const query = input.value.trim();
-
-      if (query.length < 2) {
-        setResults([]);
-        return;
-      }
-
-      timerRef.current = setTimeout(async () => {
-        const res = await fetch(
-          `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`,
-        );
-        const data = await res.json();
-        setResults(data.results || []);
-      }, 400);
-    };
-
-    input.addEventListener(`input`, handleInput);
-    return () => input.removeEventListener("input", handleInput);
-  }, []);
+  const handleSearch = async () => {
+    const query = searchRef.current.value.trim();
+    if (query.length < 2) return;
+    const res = await fetch(
+      `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`,
+    );
+    const data = await res.json();
+    setResults(data.items || []);
+  };
 
   // Select book handler
-  const handleSelect = (book) => {
-    const info = book.volumeInfo;
-    selectedRef.current = book;
+  const handleSelect = (item) => {
+    const info = item.volumeInfo;
     titleRef.current.value = info.title || "";
     authorRef.current.value = info.authors?.[0] || "";
-    if (coverRef.current) {
-      coverRef.current.src = info.imageLinks?.thumbnail || "";
-      coverRef.current.style.display = info.imageLinks?.thumbnail
-        ? "block"
-        : "none";
+    googleIdRef.current = item.id;
+    if (info.imageLinks?.thumbnail) {
+      coverRef.current.src = info.imageLinks.thumbnail || "";
+      coverRef.current.style.display = "block";
     }
-    searchRef.current.value = info.title;
     setResults([]);
+    searchRef.current.value = "";
   };
 
   // Save handler
-  const handleSave = () => {
-    if (!selectedRef.current) {
-      errorRef.current.textContent = "Please select a book first";
-      errorRef.current.style.display = "book";
+  const handleSave = (e) => {
+    e.preventDefault();
+
+    const title = titleRef.current.value.trim();
+    const author = authorRef.current.value.trim();
+
+    if (!title || !author) {
+      errorRef.current.textContent = "Title and author are required";
+      errorRef.current.style.display = "block";
       return;
     }
 
@@ -78,14 +63,11 @@ export default function AddBookPage({ setBooks }) {
       id: Date.now().toString(),
       title,
       author,
-      cover: info.imageLink?.thumbnail || "",
-      description: info.description || "",
-      pages: info.pageCount || null,
-      genre: info.categories?.[0] || "",
       status: statusRef.current.value,
       rating: ratingRef.current.value ? Number(ratingRef.current.value) : null,
       notes: notesRef.current.value.trim(),
-      googleId: selectedRef.current?.id || "",
+      cover: coverRef.current.src || "",
+      googleId: googleIdRef.current,
     };
 
     setBooks((prev) => [newBook, ...prev]);
@@ -94,35 +76,47 @@ export default function AddBookPage({ setBooks }) {
 
   return (
     <div className="page">
-      <h1>Add Book</h1>
-      <p className="'subtitle">
-        Search Google Books to auto-fill details, or enter manually
-      </p>
+      <h1>Add a Book</h1>
 
+      {/* Search bar */}
       <div className="form-group">
-        <div className="search bar">
-          <input ref={searchRef} placeholder="Search by title or author..." />
-          <span className="api-tag">
-            ⚡Powered by Google Books API (3rd party API){" "}
-          </span>
+        <label>Search Google Books</label>
+        <div style={{ display: "flex", gap: "0.5rem" }}>
+        <input ref={searchRef} placeholder="Search by title or author..." onKeyDown={(e) => e.key === 'Enter' && handleSearch()} />
+        <button type="button" className="btn-primary" onClick={handleSearch}>Search</button>
         </div>
       </div>
 
       {results.length > 0 && (
-        <div className="search-results">
-          {results.map((book) => (
+        <div
+          style={{
+            background: "#aaa",
+            border: "1px solid #444",
+            borderRadius: "4px",
+            marginBottom: "1rem",
+          }}>
+          {results.map((item) => (
             <div
-              key={book.id}
-              className="search result item"
-              onClick={() => handleSelect(book)}>
+              key={item.id}
+              onClick={() => handleSelect(item)}
+              style={{
+                display: "flex",
+                gap: "1rem",
+                padding: "1rem",
+                borderBottom: "1px solid #ddd",
+                cursor: pointer,
+              }}>
+              {item.volumeInfo.imageLinks?.thumbnail && (
               <img
                 src={book.volumeInfo.imageLinks.thumbnail}
-                alt={book.volumeinfo.title}
+                style={{ width: '36px', height: "52px", objectFit: "cover" }}
+                alt='cover'
               />
+              )}
 
               <div>
                 <h3>{book.volumeInfo.title}</h3>
-                <p>{book.volumeInfo.author?.[0] || "Unknown"}</p>
+                <p style={{color: '#aaa', fontSize: '0.85rem' }}>{book.volumeInfo.author?.[0]}</p>
               </div>
             </div>
           ))}
@@ -135,13 +129,13 @@ export default function AddBookPage({ setBooks }) {
           display: "none",
           width: "80px",
           marginBottom: "1rem",
-          borderRadius: "4px",
         }}
         alt="cover"
       />
 
+    <form onSubmit={handleSave}>
+
       {/* Adding Book Title */}
-      <div className="form-row">
         <div className="form-group">
           <label>Title</label>
           <input ref={titleRef} placeholder="Book title" />
@@ -152,10 +146,10 @@ export default function AddBookPage({ setBooks }) {
           <label>Author</label>
           <input ref={authorRef} placeholder="Author name" />
         </div>
-      </div>
+    
 
       {/* Status dropdwon */}
-      <div className="form-row">
+   
         <div className="form-group">
           <label>Status</label>
           <select ref={statusRef} defaultValue="want to watch">
@@ -177,7 +171,7 @@ export default function AddBookPage({ setBooks }) {
             <option value="5">5⭐⭐⭐⭐⭐</option>
           </select>
         </div>
-      </div>
+     
 
       {/* Comment box */}
       <div className="form-group">
@@ -190,13 +184,14 @@ export default function AddBookPage({ setBooks }) {
       <p
         ref={errorRef}
         style={{ display: "none", color: "red", marginBottom: "1rem" }}
-      />
+        />
 
-      <div className="form-actions" ></div>
+      <div className="form-actions"></div>
       <button onClick={() => navigate("/")}>Cancel</button>
       <button className="btn-primary" onClick={handleSave}>
         Save Book
       </button>
+        </form>
     </div>
   );
 }

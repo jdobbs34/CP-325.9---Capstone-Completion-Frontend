@@ -41,7 +41,7 @@ export default function BookListPage({ books, setBooks }) {
   // Delete handler
   const handleDelete = (id) => {
     if (!window.confirm("Delete this book?")) return;
-    setBooks(prev => prev.filter(b => b.id !== id));
+    setBooks((prev) => prev.filter((b) => b.id !== id));
   };
 
   return (
@@ -50,10 +50,14 @@ export default function BookListPage({ books, setBooks }) {
 
       <div className="filters">
         <button
-          data-value="all" className="active" onClick={() => handleFilter("all")}>
+          data-value="all"
+          className="active"
+          onClick={() => handleFilter("all")}>
           All
         </button>
-        <button data-value="want to read" onClick={() => handleFilter("want to read")}>
+        <button
+          data-value="want to read"
+          onClick={() => handleFilter("want to read")}>
           Want to Read
         </button>
         <button data-value="reading" onClick={() => handleFilter("reading")}>
@@ -67,14 +71,9 @@ export default function BookListPage({ books, setBooks }) {
       {books.length === 0 && <p>No books yet. Add one!</p>}
 
       <div ref={listRef}>
-        {books.map((book) => (
-          <div
-            key={book.id}
-            className="book-card"
-            data-status={book.status}>
-            {book.cover && (
-              <img src={book.cover} alt={book.title} />
-            )}
+        {books.map(book => (
+          <div key={book.id} className="book-card" data-status={book.status}>
+            {book.cover && <img src={book.cover} alt={book.title} />}
             <div>
               <h3>{book.title}</h3>
               <p>{book.author}</p>
