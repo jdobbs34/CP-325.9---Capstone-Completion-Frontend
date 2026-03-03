@@ -1,14 +1,14 @@
 import { useNavigate } from "react-router-dom";
 
 // Function for math
-export default function StatsPage({characters}) {
+export default function StatsPage({books}) {
   const navigate = useNavigate();
 
-  const total = characters.length;
-  const finished = characters.filter(b => b.status === "finished").length;
-  const reading = characters.filter(b => b.status === "reading").length;
-  const wantToRead = characters.filter(b => b.status === "want to read").length;
-  const rated = characters.filter(b => b.rating)
+  const total = books.length;
+  const finished = books.filter(b => b.status === "finished").length;
+  const reading = books.filter(b => b.status === "reading").length;
+  const wantToRead = books.filter(b => b.status === "want to read").length;
+  const rated = books.filter(b => b.rating)
   const avgRating = rated.length
   ?(rated.reduce((sum, b) => sum + b.rating, 0) / rated.length).toFixed(1)
   :'N/A'
@@ -17,7 +17,7 @@ export default function StatsPage({characters}) {
     return (
       <div className="page" >
         <h1>Stats</h1>
-        <p style={{color: '#aaa'}} >No books yet. <button className="btn-primary" onClick={() => navigate('/add')} >Add one</button></p>
+        <p style={{color: '#fff'}} >No books yet. <button className="btn-primary" onClick={() => navigate('/add')} >Add one</button></p>
       </div>
     )
   }
@@ -26,7 +26,7 @@ export default function StatsPage({characters}) {
     <div className="page">
       <h1>Stats</h1>
 
-      <div className="stats-grid">
+      <div className="stats-flex">
         <div className="stat-card">
           <h2>{total}</h2>
           <p>Total Books</p>
@@ -50,9 +50,9 @@ export default function StatsPage({characters}) {
       </div>
 
       <h2 style={{ marginBottom: '1rem' }} >Recently Added</h2>
-      {book.slice(0, 4).map(character => (
-        <div key={book.id} className="character-card" >
-          {character.image && <img src={book.image} alt={book.name} /> }
+      {books.slice(0, 4).map(book => (
+        <div key={book.id} className="book-card" >
+          {book.cover && <img src={book.cover} alt={book.title} /> }
           <div>
               <h3>{book.title}</h3>
               <p>{book.author}</p>
