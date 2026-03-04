@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios"
 
 // Function and hooks
 export default function AddBookPage({ setBooks }) {
@@ -14,30 +15,47 @@ export default function AddBookPage({ setBooks }) {
   const notesRef = useRef(null);
   const searchRef = useRef(null);
   const coverRef = useRef(null);
+  const timerRef = useRef(null);
   const errorRef = useRef(null);
-  const googleIdRef = useRef(null);
+  const googleIdRef = useRef("");
 
   // useEffect for search
   useEffect(() => {
     searchRef.current.focus();
   }, []);
 
-  const handleSearch = async () => {
-    const query = searchRef.current.value.trim();
-    if (query.length < 2) return;
-    const res = await fetch(
-      `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`,
-    );
-    const data = await res.json();
-    setResults(data.items || []);
-  };
+  // useEffect for Google API seacrh
+  useEffect(() => {
+    const input = searchRef.current;
+
+    const handleInput = () => {
+      clearTimeout(timerRef.current);
+      const query = input.value.trim();
+
+      if (query.length < 2) {
+        setResults([]);
+        return;
+      }
+
+      timerRef.current = setTimeout(async () => {
+        const res = await fetch(
+          `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`, 
+        );
+        const data = await res.json();
+        setResults(data.items || []);
+      }, 400);
+    };
+
+    input.addEventListener(`input`, handleInput);
+    return () => input.removeEventListener("input", handleInput);
+  }, []);
 
   // Select book handler
-  const handleSelect = (item) => {
-    const info = item.volumeInfo;
+  const handleSelect = (book) => {
+    const info = book.volumeInfo;
     titleRef.current.value = info.title || "";
     authorRef.current.value = info.authors?.[0] || "";
-    googleIdRef.current = item.id;
+    googleIdRef.current = book.id;
     if (info.imageLinks?.thumbnail) {
       coverRef.current.src = info.imageLinks.thumbnail || "";
       coverRef.current.style.display = "block";
@@ -47,7 +65,7 @@ export default function AddBookPage({ setBooks }) {
   };
 
   // Save handler
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
 
     const title = titleRef.current.value.trim();
@@ -70,8 +88,16 @@ export default function AddBookPage({ setBooks }) {
       googleId: googleIdRef.current,
     };
 
-    setBooks((prev) => [newBook, ...prev]);
-    navigate("/");
+    try {
+      const res = await axios.post(`http://localhost:3000/api/books/`, newBook)
+      setBooks((prev) => [res.data, ...prev]);
+      navigate("/");
+    } catch (error) {
+      console.log(err)
+      errorRef.current.textContent = "Failed to save book. Try again";
+      errorRef.current.style.display = "block";
+    }
+
   };
 
   return (
@@ -82,8 +108,8 @@ export default function AddBookPage({ setBooks }) {
       <div className="form-group">
         <label>Search Google Books</label>
         <div style={{ display: "flex", gap: "0.5rem" }}>
-        <input ref={searchRef} placeholder="Search by title or author..." onKeyDown={(e) => e.key === 'Enter' && handleSearch()} />
-        <button type="button" className="btn-primary" onClick={handleSearch}>Search</button>
+        <input ref={searchRef} placeholder="Search by title or author..." />
+        <button type="button" className="btn-primary">Search</button>
         </div>
       </div>
 
@@ -95,18 +121,18 @@ export default function AddBookPage({ setBooks }) {
             borderRadius: "4px",
             marginBottom: "1rem",
           }}>
-          {results.map((item) => (
+          {results.map((book) => (
             <div
-              key={item.id}
-              onClick={() => handleSelect(item)}
+              key={book.id}
+              onClick={() => handleSelect(book)}
               style={{
                 display: "flex",
                 gap: "1rem",
                 padding: "1rem",
                 borderBottom: "1px solid #ddd",
-                cursor: pointer,
+                cursor: 'pointer',
               }}>
-              {item.volumeInfo.imageLinks?.thumbnail && (
+              {book.volumeInfo.imageLinks?.thumbnail && (
               <img
                 src={book.volumeInfo.imageLinks.thumbnail}
                 style={{ width: '36px', height: "52px", objectFit: "cover" }}
@@ -116,7 +142,7 @@ export default function AddBookPage({ setBooks }) {
 
               <div>
                 <h3>{book.volumeInfo.title}</h3>
-                <p style={{color: '#aaa', fontSize: '0.85rem' }}>{book.volumeInfo.author?.[0]}</p>
+                <p style={{color: '#aaa', fontSize: '0.85rem' }}>{book.volumeInfo.authors?.[0]}</p>
               </div>
             </div>
           ))}
@@ -187,7 +213,7 @@ export default function AddBookPage({ setBooks }) {
         />
 
       <div className="form-actions"></div>
-      <button onClick={() => navigate("/")}>Cancel</button>
+      <button className="btn-cancel" onClick={() => navigate("/")}>Cancel</button>
       <button className="btn-primary" onClick={handleSave}>
         Save Book
       </button>

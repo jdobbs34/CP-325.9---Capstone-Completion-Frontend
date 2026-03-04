@@ -1,5 +1,6 @@
 import { useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios"
 
 export default function BookListPage({ books, setBooks }) {
   const navigate = useNavigate();
@@ -39,21 +40,26 @@ export default function BookListPage({ books, setBooks }) {
   };
 
   // Delete handler
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (!window.confirm("Delete this book?")) return;
-    setBooks((prev) => prev.filter((b) => b.id !== id));
+    try {
+      await axios.delete(`http://localhost:3000/api/books/${id}`);
+      setBooks((prev) => prev.filter((b) => b._id !== id));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <div className="page">
-      <h1>My Books</h1>
+      <h1>My Library</h1>
 
       <div className="filters">
         <button
           data-value="all"
           className="active"
           onClick={() => handleFilter("all")}>
-          All
+          All Books
         </button>
         <button
           data-value="want to read"
@@ -70,25 +76,27 @@ export default function BookListPage({ books, setBooks }) {
 
       {books.length === 0 && <p>No books yet. Add one!</p>}
 
-      <div ref={listRef}>
-        {books.map(book => (
-          <div key={book.id} className="book-card" data-status={book.status}>
+      <div className="book-container" ref={listRef}>
+        {books.map((book) => (
+          <div key={book._id} className="book-card" data-status={book.status}>
             {book.cover && <img src={book.cover} alt={book.title} />}
-            <div style={{flex: 1}}>
+            <div style={{ flex: 1 }}>
               <h3>{book.title}</h3>
               <p>{book.author}</p>
-              <p style={{textTransform: 'capitalize'}}>{book.status}</p>
+              <p style={{ textTransform: "capitalize" }}>{book.status}</p>
               {book.rating && <p>{"⭐".repeat(book.rating)}</p>}
-              {book.notes && <p style={{fontstyle: 'italic'}}>{book.notes}</p>}
+              {book.notes && (
+                <p style={{ fontstyle: "italic" }}>{book.notes}</p>
+              )}
               <div style={{ marginTop: " 0.5rem" }}>
                 <button
                   className="btn-primary"
-                  onClick={() => navigate(`/book/${book.id}`)}>
+                  onClick={() => navigate(`/book/${book._id}`)}>
                   Edit
                 </button>
                 <button
                   className="btn-danger"
-                  onClick={() => handleDelete(book.id)}>
+                  onClick={() => handleDelete(`${book._id}`)}>
                   Delete
                 </button>
               </div>

@@ -61,15 +61,19 @@ h1 {
 }
 
 /* Book card */
-
+.book-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  
+}
 
 .book-card {
   background: #2a2a2a;
+  width: 30rem;
   border: 1px solid grey;
   border-radius: 8px;
   padding: 1rem;
   margin-bottom: 1rem;
-  display: flex;
   gap: 1rem;
   align-items: flex-start;
 }
@@ -92,10 +96,12 @@ h1 {
   margin-bottom: 0.2rem;
 }
 
-.book-card, h3 ,p, button {
+.book-card,
+h3,
+p,
+button {
   margin-left: 1rem;
 }
-
 
 /* Buttons */
 
@@ -106,6 +112,8 @@ button {
   cursor: pointer;
   margin-right: 0.5rem;
   font-size: 0.9rem;
+  background-color: rgb(129, 41, 41);
+  color: rgb(248, 233, 213);
 }
 
 .btn-primary {
@@ -115,7 +123,7 @@ button {
 
 .btn-danger {
   background: #2a2a2a;
-  border: 1px solid rgb(224, 33, 33);;
+  border: 1px solid rgb(224, 33, 33);
   color: rgb(248, 233, 213);
 }
 
@@ -136,8 +144,9 @@ button {
 
 .filters button {
   background: rgb(129, 41, 41);
-  border: 1px solid #ddd;
   color: rgb(248, 233, 213);
+  border: 1px solid #ddd;
+  border-radius: 5pc;
 }
 
 .filters button.active {
@@ -170,11 +179,11 @@ button {
   background-color: rgb(129, 41, 41);
 }
 
-input{
+input {
   color: rgb(248, 233, 213);
 }
 
- /* Stats */
+/* Stats */
 .stat-card {
   background: grey;
   border: 1px solid #ddd;
@@ -193,10 +202,10 @@ input{
 }
 
 .stat-card h2 {
- font-size: 2rem;
- margin-bottom: 0.25rem;
+  font-size: 2rem;
+  margin-bottom: 0.25rem;
 }
 
 .stat-card p {
- color: rgb(248, 233, 213);
+  color: rgb(248, 233, 213);
 }

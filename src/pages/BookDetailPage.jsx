@@ -1,22 +1,27 @@
 import { useRef, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 // Function and hooks
 export default function BookDetailPage({ books, setBooks }) {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  // useRef for inputs
   const statusRef = useRef(null);
   const ratingRef = useRef(null);
   const notesRef = useRef(null);
+
+  // useRef for elements
   const titleRef = useRef(null);
   const authorRef = useRef(null);
   const coverRef = useRef(null);
   const successRef = useRef(null);
+  const errorRef = useRef(null);
 
   // useEffect to load book data when page opens
   useEffect(() => {
-    const book = books.find((b) => b.id === id);
+    const book = books.find((b) => b._id === id);
     if (!book) return navigate("/");
 
     if (titleRef.current) titleRef.current.textContent = book.title;
@@ -29,12 +34,12 @@ export default function BookDetailPage({ books, setBooks }) {
       coverRef.current.src = book.cover;
       coverRef.current.style.display = "block";
     }
-  }, [id]);
+  }, [id, books]);
 
   // Update handler
-  const handleUpdate = (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
-    const book = books.find((b) => b.id === id);
+    const book = books.find((b) => b._id === id);
 
     const updated = {
       ...book,
@@ -43,22 +48,34 @@ export default function BookDetailPage({ books, setBooks }) {
       notes: notesRef.current.value.trim(),
     };
 
-    setBooks((prev) => prev.map((b) => (b.id === id ? updated : b)));
-
-    successRef.current.textContent = "Updated!";
-    successRef.current.style.display = "block";
-    setTimeout(() => {
+    try {
+      const res = await axios.put(`http://localhost:3000/api/books/${id}`, updated);
+      setBooks((prev) => prev.map((b) => (b._id === id ? res.data : b)));
+      successRef.current.textContent = "Updated!";
+      successRef.current.style.display = "block";
+      setTimeout(() => {
       successRef.current.style.display = "none";
-    }, 2000);
+      }, 2000);
+    } catch (error) {
+      console.log(err);
+      errorRef.current.textContent = "Failed to save book. Try again";
+      errorRef.current.style.display = "block";
+    }
   };
 
   // Delete handler
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!window.confirm("Delete this Book?")) return;
-    setBooks((prev) => prev.filter((b) => b.id !== id));
+    try {
+    await axios.delete(`http://localhost:3000/api/books/${id}`)
+    setBooks((prev) => prev.filter((b) => b._id !== id));
     navigate("/");
+  } catch (error) {
+    console.log(err);
   };
-
+  
+  
+}
   return (
     <div className="page">
       <button onClick={() => navigate("/")}>⬅️Back</button>
@@ -66,8 +83,8 @@ export default function BookDetailPage({ books, setBooks }) {
         ref={coverRef}
         style={{
           display: "none",
-          width: "100px",
-          height: "10px",
+          width: "200px",
+          height: "150px",
           objectFit: "cover",
           borderRadius: "8px",
           margin: "1rem 0",
@@ -105,7 +122,11 @@ export default function BookDetailPage({ books, setBooks }) {
         {/* Comment box */}
         <div className="form-group">
           <label>Notes</label>
-          <textarea ref={notesRef} rows="4" placeholder="Your thoughts so far..."/>
+          <textarea
+            ref={notesRef}
+            rows="4"
+            placeholder="Your thoughts so far..."
+          />
         </div>
 
         <p
