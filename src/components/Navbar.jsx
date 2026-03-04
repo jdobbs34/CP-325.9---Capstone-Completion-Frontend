@@ -6,7 +6,7 @@ function Navbar() {
      <span>📚 BookTracker</span>
       <div>
         <NavLink to='/'>My Books</NavLink>
-        <NavLink to='/add'>Add Book</NavLink>
+        <NavLink to='/add'>+ Add Book</NavLink>
         <NavLink to='/stats'>Stats</NavLink>
       </div>
     </nav>

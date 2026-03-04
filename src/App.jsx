@@ -5,23 +5,33 @@ import BookListPage from "./pages/BookListPage";
 import AddBookPage from "./pages/AddBookPage";
 import BookDetailPage from "./pages/BookDetailPage";
 import StatsPage from "./pages/StatsPage";
+import axios from "axios"
+
 // import "./App.css";
 
 // useState - hold the books array
 export default function App() {
-  const [books, setBooks] = useState(() => {
-    try {
-      const saved = localStorage.getItem("books");
-      return saved ? JSON.parse(saved) : [];
-    } catch (error) {
-      return [];
-    }
-  });
+  const [books, setBooks] = useState([])
+
+  // export default function App() {
+  //   const [books, setBooks] = useState(() => {
+  //     try {
+  //       const saved = localStorage.getItem("books");
+  //       return saved ? JSON.parse(saved) : [];
+  //     } catch (error) {
+  //       return [];
+  //     }
+  //   });
 
   // useEffect - save to localStorage whenever books changes
   useEffect(() => {
-    localStorage.setItem("books", JSON.stringify(books));
-  }, [books]);
+     axios.get('http://localhost:3000/api/books/')
+     .then (res => setBooks(res.data))
+     .catch(err => console.log(err))
+  }, [])
+  // useEffect(() => {
+  //   localStorage.setItem("books", JSON.stringify(books));
+  // }, [books]);
 
   return (
     <BrowserRouter>
