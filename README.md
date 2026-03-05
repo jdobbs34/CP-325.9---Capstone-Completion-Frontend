@@ -9,7 +9,7 @@ https://github.com/jdobbs34/CP-325.9---Capstone-Completion-Backend
 
 ## About
 
-A React web application that lets you search for Books from Google, save them to your personal libary, and track your read status.
+A React web application that lets you search for Books from Google, save them to your personal library, and track your read status.
 
 Link to live site = 
 
@@ -27,21 +27,21 @@ Link to live site =
 
 ### Backend
 
-- Node.js
-- Express
-- dotenv
-- CORS
-- Mongoose
-- MongoDB Atlas
+- Node.js - JavaScript runtime
+- Express.js - Web framework
+- dotenv - Environment variables
+- cors - connects frontend and backend
+- Mongoose - ODM (Object Data Modeling)
+- MongoDB Atlas - Database
 
 ## Approach
 I built this app using React hooks to manage state and interact with the DOM:
 
 - useRef — Handles all of the inputs in the form.
-- useEffect — This is used for Google Books API the user types.
+- useEffect — This is used for the Google Books API when the user types.
 - useState — Holds the characters array and is triggered when characters are added, edited, or deleted.
 
-The app has 4 pages connected with React Router. All character data is saved to localStorage so it continues after a page refresh.
+The app has 4 pages connected with React Router. All character data is saved to localStorage, so it continues after a page refresh.
 
 ## How to Run Locally
 - bashgit clone https://github.com/yourusername/your-repo-name
@@ -59,7 +59,7 @@ The app has 4 pages connected with React Router. All character data is saved to 
 - Search Book by title or author using Google API
 - Save Books to a personal library
 - Filter Books by status — Want to read, reading, finished
-- Edit a Books status, rating, and notes
+- Edit a book's status, rating, and notes
 - Delete Books from your list
 - View stats — total characters, watch counts, average rating
 - Data persists in MongoDB after page refresh
