@@ -76,7 +76,7 @@ export default function BookListPage({ books, setBooks }) {
 
       {books.length === 0 && <p>No books yet. Add one!</p>}
 
-      <div className="book-container" ref={listRef}>
+      <div ref={listRef}>
         {books.map((book) => (
           <div key={book._id} className="book-card" data-status={book.status}>
             {book.cover && <img src={book.cover} alt={book.title} />}
