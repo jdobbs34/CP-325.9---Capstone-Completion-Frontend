@@ -34,10 +34,14 @@ nav span {
 }
 
 nav a {
-  color: white;
   text-decoration: none;
   margin-left: 1rem;
+  font-size: 18px;
   color: rgb(240, 206, 56);
+}
+
+nav a:last-child {
+  font-size: 21px;
 }
 
 nav a:hover {
@@ -190,7 +194,7 @@ input {
   padding: 1rem;
   margin-bottom: 1rem;
   text-align: center;
-  min-width: 150px;
+  min-width: 205px;
 }
 
 .stats-flex {
@@ -207,4 +211,24 @@ input {
 
 .stat-card p {
   color: rgb(248, 233, 213);
+}
+
+.stat-book-card {
+  background: #2a2a2a;
+  width: 30rem;
+  border: 1px solid grey;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.stat-book-card img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 4px;
+  flex-shrink: 0;
 }
