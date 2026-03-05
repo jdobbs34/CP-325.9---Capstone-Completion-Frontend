@@ -9,6 +9,7 @@ export default function BookListPage({ books, setBooks }) {
   const listRef = useRef(null);
 
   useEffect(() => {
+    console.log(Math.random)
     if (!listRef.current) return;
     const cards = listRef.current.querySelectorAll(".book-card");
     cards.forEach((card) => {
