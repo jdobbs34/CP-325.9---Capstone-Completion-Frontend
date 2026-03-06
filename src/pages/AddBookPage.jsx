@@ -215,10 +215,11 @@ export default function AddBookPage({ setBooks }) {
         />
 
         <div className="form-actions">
-          <button className="btn-cancel" onClick={() => navigate("/")}>
+
+          <button className="btn-cancel" type="button" onClick={() => navigate("/")}>
             Cancel
           </button>
-          <button className="btn-primary" onClick={handleSave}>
+          <button className="btn-primary" type="button" onClick={handleSave}>
             Save Book
           </button>
         </div>

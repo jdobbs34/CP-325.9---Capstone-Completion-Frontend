@@ -54,6 +54,8 @@ export default function StatsPage({ books }) {
         </div>
       </div>
 
+
+
       <h2 style={{ marginBottom: "1rem" }}>Recently Added</h2>
       {books.slice(0, 4).map((book) => (
         <div key={book._id} className="stat-book-card" style={{ width: "55rem" }}>
