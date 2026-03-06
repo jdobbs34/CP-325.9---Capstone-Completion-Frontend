@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"
+import axios from "axios";
 
 // Function and hooks
 export default function AddBookPage({ setBooks }) {
@@ -39,7 +39,7 @@ export default function AddBookPage({ setBooks }) {
 
       timerRef.current = setTimeout(async () => {
         const res = await fetch(
-          `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`, 
+          `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`,
         );
         const data = await res.json();
         setResults(data.items || []);
@@ -89,15 +89,14 @@ export default function AddBookPage({ setBooks }) {
     };
 
     try {
-      const res = await axios.post(`http://localhost:3000/api/books/`, newBook)
+      const res = await axios.post(`http://localhost:3000/api/books/`, newBook);
       setBooks((prev) => [res.data, ...prev]);
       navigate("/");
     } catch (error) {
-      console.log(err)
+      console.log(err);
       errorRef.current.textContent = "Failed to save book. Try again";
       errorRef.current.style.display = "block";
     }
-
   };
 
   return (
@@ -108,8 +107,10 @@ export default function AddBookPage({ setBooks }) {
       <div className="form-group">
         <label>Search Google Books</label>
         <div style={{ display: "flex", gap: "0.5rem" }}>
-        <input ref={searchRef} placeholder="Search by title or author..." />
-        <button type="button" className="btn-primary">Search</button>
+          <input ref={searchRef} placeholder="Search by title or author..." />
+          <button type="button" className="btn-primary">
+            Search
+          </button>
         </div>
       </div>
 
@@ -130,19 +131,21 @@ export default function AddBookPage({ setBooks }) {
                 gap: "1rem",
                 padding: "1rem",
                 borderBottom: "1px solid #ddd",
-                cursor: 'pointer',
+                cursor: "pointer",
               }}>
               {book.volumeInfo.imageLinks?.thumbnail && (
-              <img
-                src={book.volumeInfo.imageLinks.thumbnail}
-                style={{ width: '36px', height: "52px", objectFit: "cover" }}
-                alt='cover'
-              />
+                <img
+                  src={book.volumeInfo.imageLinks.thumbnail}
+                  style={{ width: "36px", height: "52px", objectFit: "cover" }}
+                  alt="cover"
+                />
               )}
 
               <div>
                 <h3>{book.volumeInfo.title}</h3>
-                <p style={{color: '#aaa', fontSize: '0.85rem' }}>{book.volumeInfo.authors?.[0]}</p>
+                <p style={{ color: "#aaa", fontSize: "0.85rem" }}>
+                  {book.volumeInfo.authors?.[0]}
+                </p>
               </div>
             </div>
           ))}
@@ -159,65 +162,67 @@ export default function AddBookPage({ setBooks }) {
         alt="cover"
       />
 
-    <form onSubmit={handleSave}>
+      <form onSubmit={handleSave}>
+        <div className="form-grid">
+          {/* Adding Book Title */}
+          <div className="form-group">
+            <label>Title</label>
+            <input ref={titleRef} placeholder="Book title" />
+          </div>
 
-      {/* Adding Book Title */}
-        <div className="form-group">
-          <label>Title</label>
-          <input ref={titleRef} placeholder="Book title" />
+          {/* Adding Author Name */}
+          <div className="form-group">
+            <label>Author</label>
+            <input ref={authorRef} placeholder="Author name" />
+          </div>
+
+          {/* Status dropdwon */}
+
+          <div className="form-group">
+            <label>Status</label>
+            <select ref={statusRef} defaultValue="want to watch">
+              <option value="want to read">Want to Read</option>
+              <option value="reading">Reading</option>
+              <option value="finished">Finished</option>
+            </select>
+          </div>
+
+          {/* Rating dropdown */}
+          <div className="form-group">
+            <label>Rating (1-5) </label>
+            <select ref={ratingRef} defaultValue="">
+              <option value="">No rating</option>
+              <option value="1">1⭐</option>
+              <option value="2">2⭐⭐</option>
+              <option value="3">3⭐⭐⭐</option>
+              <option value="4">4⭐⭐⭐⭐</option>
+              <option value="5">5⭐⭐⭐⭐⭐</option>
+            </select>
+          </div>
         </div>
 
-        {/* Adding Author Name */}
+        {/* Comment box */}
         <div className="form-group">
-          <label>Author</label>
-          <input ref={authorRef} placeholder="Author name" />
+          <label>Notes</label>
+          <textarea
+            ref={notesRef}
+            rows="6"
+            placeholder="Your thoughts so far..."></textarea>
         </div>
-    
-
-      {/* Status dropdwon */}
-   
-        <div className="form-group">
-          <label>Status</label>
-          <select ref={statusRef} defaultValue="want to watch">
-            <option value="want to read">Want to Read</option>
-            <option value="reading">Reading</option>
-            <option value="finished">Finished</option>
-          </select>
-        </div>
-
-        {/* Rating dropdown */}
-        <div className="form-group">
-          <label>Rating (1-5) </label>
-          <select ref={ratingRef} defaultValue="">
-            <option value="">No rating</option>
-            <option value="1">1⭐</option>
-            <option value="2">2⭐⭐</option>
-            <option value="3">3⭐⭐⭐</option>
-            <option value="4">4⭐⭐⭐⭐</option>
-            <option value="5">5⭐⭐⭐⭐⭐</option>
-          </select>
-        </div>
-     
-
-      {/* Comment box */}
-      <div className="form-group">
-        <label>Notes</label>
-        <textarea
-          ref={notesRef}
-          rows="4"
-          placeholder="Your thoughts so far..."></textarea>
-      </div>
-      <p
-        ref={errorRef}
-        style={{ display: "none", color: "red", marginBottom: "1rem" }}
+        <p
+          ref={errorRef}
+          style={{ display: "none", color: "red", marginBottom: "1rem" }}
         />
 
-      <div className="form-actions"></div>
-      <button className="btn-cancel" onClick={() => navigate("/")}>Cancel</button>
-      <button className="btn-primary" onClick={handleSave}>
-        Save Book
-      </button>
-        </form>
+        <div className="form-actions">
+          <button className="btn-cancel" onClick={() => navigate("/")}>
+            Cancel
+          </button>
+          <button className="btn-primary" onClick={handleSave}>
+            Save Book
+          </button>
+        </div>
+      </form>
     </div>
   );
 }

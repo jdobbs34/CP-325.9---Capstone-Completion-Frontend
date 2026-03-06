@@ -183,6 +183,13 @@ button {
   background-color: rgb(129, 41, 41);
 }
 
+.form-grid {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 24px; 
+  margin: 32px 0;
+}
+
 
 /* Stats */
 .stat-card {
