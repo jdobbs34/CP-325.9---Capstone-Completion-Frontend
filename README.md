@@ -51,7 +51,7 @@ Create
 
 - POST - /api/books - Create a new book
   Read
-- GET - /api/books/- Get all books
+- GET - /api/books/ - Get all books
 - GET - /api/book/:id - Get one book by ID
   Update
 - PUT - /api/book/:id - Update a book by ID
@@ -64,11 +64,28 @@ Route for seed
 
 ## How to Run Locally
 
-- bashgit clone https://github.com/yourusername/your-repo-name
-- cd your-repo-name
-- npm install
-- npm run dev
-- Then open http://localhost:5173 in your browser.
+ ### 1. Clone the repositories
+- bash git clone https://github.com/jdobbs34/CP-325.9---Capstone-Completion-Frontend
+- bash git clone https://github.com/yourusername/book-tracker-backend
+
+### 2. Set up the backend
+- bash cd Capstone.Backend.BookTracker.Project
+- bash cd book-tracker-backend
+- bash npm install
+- Create a .`.env` in file the root of the backend folder: MONGO_URI=your_mongodb_connection_string PORT=5000
+- Send the database with sample data: bash npm seed
+- Start rthe beckend server: node server.js
+- You should see: Server running on port 3000 MongoDB connected
+
+### 3. Set up the frontend
+- bash cd Capstone.Frontend.BookTracker.Project
+- bash npm install
+- bash npm run dev
+- Open http://localhost:5173 in your browser.
+
+### 4. Both must be running at the same time
+- Frontend Terminal: `npm run dev`
+- Backend Terminal: `npm run dev`
 
 ## Unsolved Problems
 
