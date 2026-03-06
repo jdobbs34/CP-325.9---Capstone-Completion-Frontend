@@ -48,14 +48,13 @@ The app has 4 pages connected with React Router. All book data is saved to Mongo
 ### Backend Routes (CRUD)
 
 Create
-
 - POST - /api/books - Create a new book
-  Read
+Read
 - GET - /api/books/ - Get all books
 - GET - /api/book/:id - Get one book by ID
-  Update
+Update
 - PUT - /api/book/:id - Update a book by ID
-  Delete
+Delete
 - DELETE - /api/book/:id - Delete a book by ID
 
 Route for seed
