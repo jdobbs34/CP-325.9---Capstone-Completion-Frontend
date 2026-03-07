@@ -55,7 +55,7 @@ nav a.active {
 /* Page Container */
 .page {
   max-width: 900px;
-  margin: 2rem auto;
+  margin: 2rem 24rem;
   padding: 0 1rem;
 }
 
@@ -67,12 +67,13 @@ h1 {
 /* Book card */
 .book-container {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 }
 
 .book-card {
   background: #2a2a2a;
-  width: 30rem;
+  width: 32rem;
   border: 1px solid grey;
   border-radius: 8px;
   padding: 1rem;
@@ -83,7 +84,7 @@ h1 {
 
 .book-card img {
   width: 200px;
-  height: 200px;
+  height: 300px;
   object-fit: cover;
   border-radius: 4px;
   flex-shrink: 0;
@@ -93,9 +94,9 @@ h1 {
   margin-bottom: 0.25rem;
 }
 
-.book-card p {
+.book-card, h3, p {
   color: rgb(248, 233, 213);
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   margin-bottom: 0.2rem;
 }
 
@@ -236,4 +237,10 @@ button {
   object-fit: cover;
   border-radius: 4px;
   flex-shrink: 0;
+}
+
+@media (max-width: 650px) {
+  .book-container {
+    grid-template-columns: 1fr;
+  }
 }

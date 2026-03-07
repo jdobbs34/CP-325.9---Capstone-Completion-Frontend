@@ -54,11 +54,79 @@ export default function StatsPage({ books }) {
         </div>
       </div>
 
+      {/* Reading Progrees Bar */}
+      <div style={{ marginBottom: "2rem" }}>
+        <h2 style={{ marginBottom: "1rem" }}> Reading Progress</h2>
 
+        <div style={{ marginBottom: "0.75rem" }}>
+          <p style={{ marginBottom: "0.25rem" }}>Finished ({finished}) </p>
+
+          <div
+            style={{
+              background: "#c4be9d",
+              borderRadius: "4px",
+              height: "20px",
+            }}>
+            <div
+              style={{
+                background: "#630b0b",
+                borderRadius: "4px",
+                width: `${total ? (finished / total) * 100 : 0}%`,
+                height: "20px",
+              }}
+            />
+          </div>
+        </div>
+
+        <div style={{ marginBottom: "0.75rem" }}>
+          <p style={{ marginBottom: "0.25rem" }}>Reading ({reading}) </p>
+
+          <div
+            style={{
+              background: "#c4be9d",
+              borderRadius: "4px",
+              height: "20px",
+            }}>
+            <div
+              style={{
+                background: "#0b6321",
+                borderRadius: "4px",
+                width: `${total ? (reading / total) * 100 : 0}%`,
+                height: "20px",
+              }}
+            />
+          </div>
+        </div>
+
+        <div style={{ marginBottom: "0.75rem" }}>
+          <p style={{ marginBottom: "0.25rem" }}>Want to Read ({wantToRead}) </p>
+
+          <div
+            style={{
+              background: "#c4be9d",
+              borderRadius: "4px",
+              height: "20px",
+            }}>
+            <div
+              style={{
+                background: "#1b0b63",
+                borderRadius: "4px",
+                width: `${total ? (finished / total) * 100 : 0}%`,
+                height: "20px",
+              }}
+            />
+          </div>
+        </div>
+
+        
+      </div>
 
       <h2 style={{ marginBottom: "1rem" }}>Recently Added</h2>
       {books.slice(0, 4).map((book) => (
-        <div key={book._id} className="stat-book-card" style={{ width: "55rem" }}>
+        <div
+          key={book._id}
+          className="stat-book-card"
+          style={{ width: "55rem" }}>
           {book.cover && <img src={book.cover} alt={book.title} />}
           <div>
             <h3>{book.title}</h3>
