@@ -64,7 +64,7 @@ export default function BookListPage({ books, setBooks }) {
         </button>
         <button
           data-value="want to read"
-          onClick={() => handleFilter("want to read")}>
+          onClick={() => handleFilter("want to read")}>l
           Want to Read
         </button>
         <button data-value="reading" onClick={() => handleFilter("reading")}>
