@@ -94,7 +94,9 @@ h1 {
   margin-bottom: 0.25rem;
 }
 
-.book-card, h3, p {
+.book-card,
+h3,
+p {
   color: rgb(248, 233, 213);
   font-size: 1.2rem;
   margin-bottom: 0.2rem;
@@ -171,7 +173,6 @@ button {
   color: rgb(248, 233, 213);
 }
 
-
 .form-group input,
 .form-group select,
 .form-group textarea {
@@ -187,10 +188,9 @@ button {
 .form-grid {
   display: grid;
   grid-template-columns: auto auto;
-  gap: 24px; 
+  gap: 24px;
   margin: 32px 0;
 }
-
 
 /* Stats */
 .stat-card {
@@ -233,7 +233,7 @@ button {
 
 .stat-book-card img {
   width: 200px;
-  height: 200px;
+  height: 250px;
   object-fit: cover;
   border-radius: 4px;
   flex-shrink: 0;

@@ -99,10 +99,6 @@ export default function AddBookPage({ setBooks }) {
     }
   };
 
-
-
-
-
   return (
     <div className="page">
       <h1>Add a Book</h1>
