@@ -78,7 +78,7 @@ export default function AddBookPage({ setBooks }) {
     }
 
     const newBook = {
-      id: Date.now().toString(),
+      // id: Date.now().toString(),
       title,
       author,
       status: statusRef.current.value,
