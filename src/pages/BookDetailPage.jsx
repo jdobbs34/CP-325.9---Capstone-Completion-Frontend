@@ -50,14 +50,16 @@ export default function BookDetailPage({ books, setBooks }) {
 
     try {
       const res = await axios.put(
-        `https://booktracker-backend-server.onrender.com/api/books/${id}`,
+        `http://localhost:3000/api/books/${id}`,
         updated,
       );
       setBooks((prev) => prev.map((b) => (b._id === id ? res.data : b)));
       successRef.current.textContent = "Updated!";
       successRef.current.style.display = "block";
       setTimeout(() => {
-        successRef.current.style.display = "none";
+        if (successRef.current) {
+          successRef.current.style.display = "none";
+        }
       }, 2000);
     } catch (error) {
       console.log(error);
@@ -70,17 +72,13 @@ export default function BookDetailPage({ books, setBooks }) {
   const handleDelete = async () => {
     if (!window.confirm("Delete this Book?")) return;
     try {
-      await axios.delete(
-        `https://booktracker-backend-server.onrender.com/api/books/${id}`,
-      );
+      await axios.delete(`http://localhost:3000/api/books/${id}`);
       setBooks((prev) => prev.filter((b) => b._id !== id));
       navigate("/");
     } catch (error) {
       console.log(error);
     }
   };
-
-  
   return (
     <div className="page">
       <button onClick={() => navigate("/")}>⬅️Back</button>
@@ -98,7 +96,10 @@ export default function BookDetailPage({ books, setBooks }) {
         alt="book"
       />
       <h1 ref={titleRef} />
-      <p ref={authorRef} style={{ color: "#666", marginBottom: "1rem" }} />
+      <p
+        ref={authorRef}
+        style={{ color: "rgb(248, 233, 213)", marginBottom: "1rem" }}
+      />
 
       {/* Status dropdwon */}
       <form onSubmit={handleUpdate}>
@@ -136,7 +137,11 @@ export default function BookDetailPage({ books, setBooks }) {
 
         <p
           ref={successRef}
-          style={{ display: "none", color: "brown", marginBottom: "0.5rem" }}
+          style={{ display: "none", color: "green", marginBottom: "0.5rem" }}
+        />
+          <p
+          ref={errorRef}
+          style={{ display: "none", color: "red", marginBottom: "0.5rem" }}
         />
         <button type="submit" className="btn-primary">
           Update

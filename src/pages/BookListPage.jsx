@@ -45,7 +45,7 @@ export default function BookListPage({ books, setBooks }) {
     if (!window.confirm("Delete this book?")) return;
     try {
       await axios.delete(
-        `https://booktracker-backend-server.onrender.com/api/books/${id}`,
+        `http://localhost:3000/api/books/${id}`,
       );
       setBooks((prev) => prev.filter((b) => b._id !== id));
     } catch (error) {
@@ -67,7 +67,7 @@ export default function BookListPage({ books, setBooks }) {
         <button
           data-value="want to read"
           onClick={() => handleFilter("want to read")}>
-          l Want to Read
+          Want to Read
         </button>
         <button data-value="reading" onClick={() => handleFilter("reading")}>
           Reading

@@ -111,7 +111,7 @@ export default function StatsPage({ books }) {
               style={{
                 background: "#1b0b63",
                 borderRadius: "4px",
-                width: `${total ? (finished / total) * 100 : 0}%`,
+                width: `${total ? (wantToRead / total) * 100 : 0}%`,
                 height: "20px",
               }}
             />
