@@ -39,11 +39,11 @@ export default function AddBookPage({ setBooks }) {
 
       timerRef.current = setTimeout(async () => {
         const res = await fetch(
-          `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`,
+          `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=5`,
         );
         const data = await res.json();
         setResults(data.items || []);
-      }, 400);
+      }, 600);
     };
 
     input.addEventListener(`input`, handleInput);
@@ -89,11 +89,14 @@ export default function AddBookPage({ setBooks }) {
     };
 
     try {
-      const res = await axios.post(`http://localhost:3000/api/books/`, newBook);
+      const res = await axios.post(
+        `https://booktracker-backend-server.onrender.com/api/books/`,
+        newBook,
+      );
       setBooks((prev) => [res.data, ...prev]);
       navigate("/");
     } catch (error) {
-      console.log(err);
+      console.log(error);
       errorRef.current.textContent = "Failed to save book. Try again";
       errorRef.current.style.display = "block";
     }
@@ -108,7 +111,7 @@ export default function AddBookPage({ setBooks }) {
         <label>Search Google Books</label>
         <div style={{ display: "flex", gap: "0.5rem" }}>
           <input ref={searchRef} placeholder="Search by title or author..." />
-          <button type="button" className="btn-primary">
+          <button type="button" className="btn-primary" onClick={handleSearch} >
             Search
           </button>
         </div>
@@ -215,8 +218,10 @@ export default function AddBookPage({ setBooks }) {
         />
 
         <div className="form-actions">
-
-          <button className="btn-cancel" type="button" onClick={() => navigate("/")}>
+          <button
+            className="btn-cancel"
+            type="button"
+            onClick={() => navigate("/")}>
             Cancel
           </button>
           <button className="btn-primary" type="button" onClick={handleSave}>
