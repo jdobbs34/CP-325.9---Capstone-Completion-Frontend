@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"
+import axios from "axios";
 
 export default function BookListPage({ books, setBooks }) {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ export default function BookListPage({ books, setBooks }) {
   const listRef = useRef(null);
 
   useEffect(() => {
-    console.log(Math.random)
+    console.log(Math.random);
     if (!listRef.current) return;
     const cards = listRef.current.querySelectorAll(".book-card");
     cards.forEach((card) => {
@@ -44,7 +44,9 @@ export default function BookListPage({ books, setBooks }) {
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this book?")) return;
     try {
-      await axios.delete(`http://localhost:3000/api/books/${id}`);
+      await axios.delete(
+        `https://booktracker-backend-server.onrender.com/api/books/${id}`,
+      );
       setBooks((prev) => prev.filter((b) => b._id !== id));
     } catch (error) {
       console.log(error);
@@ -64,8 +66,8 @@ export default function BookListPage({ books, setBooks }) {
         </button>
         <button
           data-value="want to read"
-          onClick={() => handleFilter("want to read")}>l
-          Want to Read
+          onClick={() => handleFilter("want to read")}>
+          l Want to Read
         </button>
         <button data-value="reading" onClick={() => handleFilter("reading")}>
           Reading

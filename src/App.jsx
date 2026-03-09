@@ -25,7 +25,7 @@ export default function App() {
 
   // useEffect - save to localStorage whenever books changes
   useEffect(() => {
-     axios.get('http://localhost:3000/api/books/')
+     axios.get('https://booktracker-backend-server.onrender.com')
      .then (res => setBooks(res.data))
      .catch(err => console.log(err))
   }, [])

@@ -49,12 +49,15 @@ export default function BookDetailPage({ books, setBooks }) {
     };
 
     try {
-      const res = await axios.put(`http://localhost:3000/api/books/${id}`, updated);
+      const res = await axios.put(
+        `https://booktracker-backend-server.onrender.com/api/books/${id}`,
+        updated,
+      );
       setBooks((prev) => prev.map((b) => (b._id === id ? res.data : b)));
       successRef.current.textContent = "Updated!";
       successRef.current.style.display = "block";
       setTimeout(() => {
-      successRef.current.style.display = "none";
+        successRef.current.style.display = "none";
       }, 2000);
     } catch (error) {
       console.log(err);
@@ -67,15 +70,15 @@ export default function BookDetailPage({ books, setBooks }) {
   const handleDelete = async () => {
     if (!window.confirm("Delete this Book?")) return;
     try {
-    await axios.delete(`http://localhost:3000/api/books/${id}`)
-    setBooks((prev) => prev.filter((b) => b._id !== id));
-    navigate("/");
-  } catch (error) {
-    console.log(err);
+      await axios.delete(
+        `https://booktracker-backend-server.onrender.com/api/books/${id}`,
+      );
+      setBooks((prev) => prev.filter((b) => b._id !== id));
+      navigate("/");
+    } catch (error) {
+      console.log(err);
+    }
   };
-  
-  
-}
   return (
     <div className="page">
       <button onClick={() => navigate("/")}>⬅️Back</button>
