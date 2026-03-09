@@ -60,7 +60,7 @@ export default function BookDetailPage({ books, setBooks }) {
         successRef.current.style.display = "none";
       }, 2000);
     } catch (error) {
-      console.log(err);
+      console.log(error);
       errorRef.current.textContent = "Failed to save book. Try again";
       errorRef.current.style.display = "block";
     }
@@ -76,9 +76,11 @@ export default function BookDetailPage({ books, setBooks }) {
       setBooks((prev) => prev.filter((b) => b._id !== id));
       navigate("/");
     } catch (error) {
-      console.log(err);
+      console.log(error);
     }
   };
+
+  
   return (
     <div className="page">
       <button onClick={() => navigate("/")}>⬅️Back</button>
@@ -87,7 +89,7 @@ export default function BookDetailPage({ books, setBooks }) {
         style={{
           display: "none",
           width: "200px",
-          height: "150px",
+          height: "250px",
           objectFit: "cover",
           borderRadius: "8px",
           margin: "1rem 0",
