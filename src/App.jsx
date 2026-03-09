@@ -13,6 +13,8 @@ import axios from "axios"
 export default function App() {
   const [books, setBooks] = useState([])
 
+  
+  // useEffect - save to localStorage whenever books changes
   // export default function App() {
   //   const [books, setBooks] = useState(() => {
   //     try {
@@ -22,13 +24,21 @@ export default function App() {
   //       return [];
   //     }
   //   });
-
-  // useEffect - save to localStorage whenever books changes
+  
+// Use this when deployed
   useEffect(() => {
-     axios.get('http://localhost:3000/api/books/')
+     axios.get('https://booktracker-backend-server.onrender.com/api/books/')
      .then (res => setBooks(res.data))
      .catch(err => console.log(err))
   }, [])
+ 
+
+// Use this when not deployed
+  // useEffect(() => {
+  //    axios.get('http://localhost:3000/api/books/')
+  //    .then (res => setBooks(res.data))
+  //    .catch(err => console.log(err))
+  // }, [])
   // useEffect(() => {
   //   localStorage.setItem("books", JSON.stringify(books));
   // }, [books]);

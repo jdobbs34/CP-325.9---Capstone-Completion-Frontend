@@ -36,7 +36,7 @@ export default function BookDetailPage({ books, setBooks }) {
     }
   }, [id, books]);
 
-  // Update handler
+  // Update handler - Use this when deployed
   const handleUpdate = async (e) => {
     e.preventDefault();
     const book = books.find((b) => b._id === id);
@@ -50,7 +50,7 @@ export default function BookDetailPage({ books, setBooks }) {
 
     try {
       const res = await axios.put(
-        `http://localhost:3000/api/books/${id}`,
+        `https://booktracker-backend-server.onrender.com/api/books/${id}`,
         updated,
       );
       setBooks((prev) => prev.map((b) => (b._id === id ? res.data : b)));
@@ -72,13 +72,60 @@ export default function BookDetailPage({ books, setBooks }) {
   const handleDelete = async () => {
     if (!window.confirm("Delete this Book?")) return;
     try {
-      await axios.delete(`http://localhost:3000/api/books/${id}`);
+      await axios.delete(`hhttps://booktracker-backend-server.onrender.com/api/books/${id}`);
       setBooks((prev) => prev.filter((b) => b._id !== id));
       navigate("/");
     } catch (error) {
       console.log(error);
     }
   };
+
+  // Update handler - Use this when not deployed
+  // const handleUpdate = async (e) => {
+  //   e.preventDefault();
+  //   const book = books.find((b) => b._id === id);
+
+  //   const updated = {
+  //     ...book,
+  //     status: statusRef.current.value,
+  //     rating: ratingRef.current.value ? Number(ratingRef.current.value) : null,
+  //     notes: notesRef.current.value.trim(),
+  //   };
+
+  //   try {
+  //     const res = await axios.put(
+  //       `http://localhost:3000/api/books/${id}`,
+  //       updated,
+  //     );
+  //     setBooks((prev) => prev.map((b) => (b._id === id ? res.data : b)));
+  //     successRef.current.textContent = "Updated!";
+  //     successRef.current.style.display = "block";
+  //     setTimeout(() => {
+  //       if (successRef.current) {
+  //         successRef.current.style.display = "none";
+  //       }
+  //     }, 2000);
+  //   } catch (error) {
+  //     console.log(error);
+  //     errorRef.current.textContent = "Failed to save book. Try again";
+  //     errorRef.current.style.display = "block";
+  //   }
+  // };
+
+  // Delete handler
+  // const handleDelete = async () => {
+  //   if (!window.confirm("Delete this Book?")) return;
+  //   try {
+  //     await axios.delete(`http://localhost:3000/api/books/${id}`);
+  //     setBooks((prev) => prev.filter((b) => b._id !== id));
+  //     navigate("/");
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+
+
   return (
     <div className="page">
       <button onClick={() => navigate("/")}>⬅️Back</button>

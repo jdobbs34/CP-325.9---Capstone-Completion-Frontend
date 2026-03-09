@@ -40,18 +40,31 @@ export default function BookListPage({ books, setBooks }) {
     });
   };
 
-  // Delete handler
+  // Delete handler - Use this when deployed
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this book?")) return;
     try {
       await axios.delete(
-        `http://localhost:3000/api/books/${id}`,
+        `https://booktracker-backend-server.onrender.com/api/books/${id}`,
       );
       setBooks((prev) => prev.filter((b) => b._id !== id));
     } catch (error) {
       console.log(error);
     }
   };
+
+  // Delete handler - Use this when not deployed
+  // const handleDelete = async (id) => {
+  //   if (!window.confirm("Delete this book?")) return;
+  //   try {
+  //     await axios.delete(
+  //       `http://localhost:3000/api/books/${id}`,
+  //     );
+  //     setBooks((prev) => prev.filter((b) => b._id !== id));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <div className="page">
