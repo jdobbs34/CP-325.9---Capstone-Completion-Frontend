@@ -18,6 +18,7 @@ export default function AddBookPage({ setBooks }) {
   const timerRef = useRef(null);
   const errorRef = useRef(null);
   const googleIdRef = useRef("");
+  const key = import.meta.env.VITE_GOOGLE_BOOKS_KEY
 
   // useEffect for search
   useEffect(() => {
@@ -39,11 +40,11 @@ export default function AddBookPage({ setBooks }) {
 
       timerRef.current = setTimeout(async () => {
         const res = await fetch(
-          `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`,
+          `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=5&key=${key}`,
         );
         const data = await res.json();
         setResults(data.items || []);
-      }, 400);
+      }, 600);
     };
 
     input.addEventListener(`input`, handleInput);
@@ -78,7 +79,7 @@ export default function AddBookPage({ setBooks }) {
     }
 
     const newBook = {
-      id: Date.now().toString(),
+      // id: Date.now().toString(),
       title,
       author,
       status: statusRef.current.value,
@@ -93,10 +94,21 @@ export default function AddBookPage({ setBooks }) {
       setBooks((prev) => [res.data, ...prev]);
       navigate("/");
     } catch (error) {
-      console.log(err);
+      console.log(error);
       errorRef.current.textContent = "Failed to save book. Try again";
       errorRef.current.style.display = "block";
     }
+  };
+
+  const handleSearch = async () => {
+    clearTimeout(timerRef.current);
+    const query = searchRef.current.value.trim();
+    if (query.length < 2) return;
+    const res = await fetch(
+      `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=5&key=${key}`,
+    );
+    const data = await res.json();
+    setResults(data.items || []);
   };
 
   return (
@@ -108,7 +120,7 @@ export default function AddBookPage({ setBooks }) {
         <label>Search Google Books</label>
         <div style={{ display: "flex", gap: "0.5rem" }}>
           <input ref={searchRef} placeholder="Search by title or author..." />
-          <button type="button" className="btn-primary">
+          <button type="button" className="btn-primary" onClick={handleSearch}>
             Search
           </button>
         </div>
@@ -180,7 +192,7 @@ export default function AddBookPage({ setBooks }) {
 
           <div className="form-group">
             <label>Status</label>
-            <select ref={statusRef} defaultValue="want to watch">
+            <select ref={statusRef} defaultValue="want to read">
               <option value="want to read">Want to Read</option>
               <option value="reading">Reading</option>
               <option value="finished">Finished</option>
@@ -215,8 +227,10 @@ export default function AddBookPage({ setBooks }) {
         />
 
         <div className="form-actions">
-
-          <button className="btn-cancel" type="button" onClick={() => navigate("/")}>
+          <button
+            className="btn-cancel"
+            type="button"
+            onClick={() => navigate("/")}>
             Cancel
           </button>
           <button className="btn-primary" type="button" onClick={handleSave}>
