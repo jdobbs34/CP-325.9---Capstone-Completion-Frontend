@@ -102,6 +102,20 @@ export default function AddBookPage({ setBooks }) {
     }
   };
 
+    // Search handler
+     const handleSearch = async () => {
+      clearTimeout(timerRef.current);
+      const query = searchRef.current.value.trim();
+      if (query.length < 2) return
+      const res = await fetch(
+          `https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=5`
+        )
+        const data = await res.json();
+        setResults(data.items || []);
+      
+    };
+
+
   return (
     <div className="page">
       <h1>Add a Book</h1>
