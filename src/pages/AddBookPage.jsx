@@ -58,7 +58,10 @@ export default function AddBookPage({ setBooks }) {
     authorRef.current.value = info.authors?.[0] || "";
     googleIdRef.current = book.id;
     if (info.imageLinks?.thumbnail) {
-      coverRef.current.src = info.imageLinks.thumbnail || "";
+      // force https
+      const secureUrl = info.imageLinks.thumbnail.replace('http://', 'https//')
+      coverRef.current.src = secureUrl;
+      // coverRef.current.src = info.imageLinks.thumbnail || ""; 
       coverRef.current.style.display = "block";
     }
     setResults([]);
