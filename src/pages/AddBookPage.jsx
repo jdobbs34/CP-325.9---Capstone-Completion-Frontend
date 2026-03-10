@@ -60,8 +60,8 @@ export default function AddBookPage({ setBooks }) {
     if (info.imageLinks?.thumbnail) {
       // force https
       const secureUrl = info.imageLinks.thumbnail.replace('http://', 'https//')
-      coverRef.current.src = secureUrl;
-      // coverRef.current.src = info.imageLinks.thumbnail || ""; 
+      // coverRef.current.src = secureUrl;
+      coverRef.current.src = info.imageLinks.thumbnail || ""; 
       coverRef.current.style.display = "block";
     }
     setResults([]);
@@ -81,7 +81,30 @@ export default function AddBookPage({ setBooks }) {
       return;
     }
 
-    // Use this when deployed
+    // // Use this when deployed
+    //   const newBook = {
+    //     // id: Date.now().toString(),
+    //     title,
+    //     author,
+    //     status: statusRef.current.value,
+    //     rating: ratingRef.current.value ? Number(ratingRef.current.value) : null,
+    //     notes: notesRef.current.value.trim(),
+    //     cover: coverRef.current.src || "",
+    //     googleId: googleIdRef.current,
+    //   };
+
+    //   try {
+    //     const res = await axios.post(`https://booktracker-backend-server.onrender.com/api/books/`, newBook);
+    //     setBooks((prev) => [res.data, ...prev]);
+    //     navigate("/");
+    //   } catch (error) {
+    //     console.log(error);
+    //     errorRef.current.textContent = "Failed to save book. Try again";
+    //     errorRef.current.style.display = "block";
+    //   }
+    // };
+
+    // Use this when not deployed
     const newBook = {
       // id: Date.now().toString(),
       title,
@@ -94,7 +117,7 @@ export default function AddBookPage({ setBooks }) {
     };
 
     try {
-      const res = await axios.post(`https://booktracker-backend-server.onrender.com/api/books/`, newBook);
+      const res = await axios.post(`http://localhost:3000/api/books/`, newBook);
       setBooks((prev) => [res.data, ...prev]);
       navigate("/");
     } catch (error) {
@@ -103,29 +126,6 @@ export default function AddBookPage({ setBooks }) {
       errorRef.current.style.display = "block";
     }
   };
-
-      // Use this when not deployed
-  //   const newBook = {
-  //     // id: Date.now().toString(),
-  //     title,
-  //     author,
-  //     status: statusRef.current.value,
-  //     rating: ratingRef.current.value ? Number(ratingRef.current.value) : null,
-  //     notes: notesRef.current.value.trim(),
-  //     cover: coverRef.current.src || "",
-  //     googleId: googleIdRef.current,
-  //   };
-
-  //   try {
-  //     const res = await axios.post(`http://localhost:3000/api/books/`, newBook);
-  //     setBooks((prev) => [res.data, ...prev]);
-  //     navigate("/");
-  //   } catch (error) {
-  //     console.log(error);
-  //     errorRef.current.textContent = "Failed to save book. Try again";
-  //     errorRef.current.style.display = "block";
-  //   }
-  // };
 
   const handleSearch = async () => {
     clearTimeout(timerRef.current);

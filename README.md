@@ -10,7 +10,8 @@ https://github.com/jdobbs34/CP-325.9---Capstone-Completion-Backend
 
 A full stack React web application that lets you search for Books from Google, save them to your personal library, and track your read status.
 
-Link to live site = https://capstone-completion-frontend.onrender.com/ 
+Link to live site when working on render = https://capstone-completion-frontend.onrender.com/ 
+Link to live site when working from local = http://localhost:5173/
 
 ## Technologies Used
 
