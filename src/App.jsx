@@ -25,23 +25,26 @@ export default function App() {
   //     }
   //   });
   
-// Use this when deployed
-  useEffect(() => {
-     axios.get('https://booktracker-backend-server.onrender.com/api/books/')
-     .then (res => setBooks(res.data))
-     .catch(err => console.log(err))
-  }, [])
- 
-
-// Use this when not deployed
-  // useEffect(() => {
-  //    axios.get('http://localhost:3000/api/books/')
-  //    .then (res => setBooks(res.data))
-  //    .catch(err => console.log(err))
-  // }, [])
   // useEffect(() => {
   //   localStorage.setItem("books", JSON.stringify(books));
   // }, [books]);
+
+  
+  // // Use this when deployed
+  // useEffect(() => {
+  //    axios.get('https://booktracker-backend-server.onrender.com/api/books/')
+  //    .then (res => setBooks(res.data))
+  //    .catch(err => console.log(err))
+  // }, [])
+ 
+
+  // Use this when not deployed
+  useEffect(() => {
+     axios.get('http://localhost:3000/api/books/')
+     .then (res => setBooks(res.data))
+     .catch(err => console.log(err))
+  }, [])
+  
 
   return (
     <BrowserRouter>
