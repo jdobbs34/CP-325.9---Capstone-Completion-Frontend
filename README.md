@@ -23,7 +23,7 @@ Link to live site when working from local = http://localhost:5173/
 - Axios
 - CSS
 - Google API (https://www.googleapis.com)
-- MongoDB a.k.a Da Gooooose
+- MongoDB a.k.a Da Gooooooose
 
 ### Backend
 
