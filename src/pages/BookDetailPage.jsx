@@ -72,7 +72,7 @@ export default function BookDetailPage({ books, setBooks }) {
   const handleDelete = async () => {
     if (!window.confirm("Delete this Book?")) return;
     try {
-      await axios.delete(`hhttps://booktracker-backend-server.onrender.com/api/books/${id}`);
+      await axios.delete(`https://booktracker-backend-server.onrender.com/api/books/${id}`);
       setBooks((prev) => prev.filter((b) => b._id !== id));
       navigate("/");
     } catch (error) {
@@ -138,7 +138,7 @@ export default function BookDetailPage({ books, setBooks }) {
           objectFit: "cover",
           borderRadius: "8px",
           margin: "1rem 0",
-          display: "block",
+          // display: "block",
         }}
         alt="book"
       />
