@@ -60,7 +60,7 @@ export default function AddBookPage({ setBooks }) {
     if (info.imageLinks?.thumbnail) {
       // force https
       const secureUrl = info.imageLinks.thumbnail.replace('http://', 'https//')
-      // coverRef.current.src = secureUrl;
+      coverRef.current.src = secureUrl;
       coverRef.current.src = info.imageLinks.thumbnail || ""; 
       coverRef.current.style.display = "block";
     }
