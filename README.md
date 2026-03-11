@@ -100,3 +100,8 @@ Save Books to a personal library
 - Delete Books from your list
 - Data persists in MongoDB after page refresh
 - Sticky navbar
+
+
+## Project Management
+
+<img src="images/Capstone.png" width="1200" height="600"/>
