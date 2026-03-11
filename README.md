@@ -22,7 +22,7 @@ A full stack React web application that lets you search for Books from Google, s
 - React Router DOM
 - Axios
 - CSS
-- Google API (https://www.googleapis.com)
+- Google API (https://www.googleapis.com/books/v1/volumes?q)
 - MongoDB a.k.a Da Gooooooose
 
 ### Backend
@@ -60,11 +60,11 @@ Route for seed
 
 ## How to Run Locally
 
- ### 1. Clone the repositories
+ ### Clone the repositories
 - bash git clone https://github.com/jdobbs34/CP-325.9---Capstone-Completion-Frontend
 - bash git clone https://github.com/yourusername/book-tracker-backend
 
-### 2. Set up the backend
+### Set up the backend
 - bash cd Capstone.Backend.BookTracker.Project
 - bash cd book-tracker-backend
 - bash npm install
@@ -73,13 +73,13 @@ Route for seed
 - Start rthe beckend server: node server.js
 - You should see: Server running on port 3000 MongoDB connected
 
-### 3. Set up the frontend
+### Set up the frontend
 - bash cd Capstone.Frontend.BookTracker.Project
 - bash npm install
 - bash npm run dev
 - Open http://localhost:5173 in your browser.
 
-### 4. Both must be running at the same time
+### Both must be running at the same time
 - Frontend Terminal: `npm run dev`
 - Backend Terminal: `npm run dev`
 
