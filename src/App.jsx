@@ -44,6 +44,16 @@ export default function App() {
      .then (res => setBooks(res.data))
      .catch(err => console.log(err))
   }, [])
+
+  // // Use this for both
+
+  const API = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+
+    useEffect(() => {
+     axios.get(`${API}/api/books/`)
+     .then (res => setBooks(res.data))
+     .catch(err => console.log(err))
+  }, [])
   
 
   return (
