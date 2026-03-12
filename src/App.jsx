@@ -30,12 +30,12 @@ export default function App() {
   // }, [books]);
 
   
-  // // Use this when deployed
-  // useEffect(() => {
-  //    axios.get('https://booktracker-backend-server.onrender.com/api/books/')
-  //    .then (res => setBooks(res.data))
-  //    .catch(err => console.log(err))
-  // }, [])
+  // Use this when deployed
+  useEffect(() => {
+     axios.get('https://booktracker-backend-server.onrender.com/api/books/')
+     .then (res => setBooks(res.data))
+     .catch(err => console.log(err))
+  }, [])
  
 
   // Use this when not deployed
